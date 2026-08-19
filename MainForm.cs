@@ -108,7 +108,7 @@ internal sealed class MainForm : Form
             var bounds = Screen.PrimaryScreen!.Bounds;
             using var bmp = new Bitmap(bounds.Width, bounds.Height); using (var g = Graphics.FromImage(bmp)) g.CopyFromScreen(bounds.Location, Point.Empty, bounds.Size);
             using var scaled = new Bitmap(bmp, Math.Min(1280, bounds.Width), Math.Min(720, bounds.Height)); using var ms = new MemoryStream();
-            var codec = ImageCodecInfo.GetImageEncoders().First(x => x.MimeType == "image/jpeg"); using var ep = new EncoderParameters(1); ep.Param[0] = new EncoderParameter(Encoder.Quality, 55L); scaled.Save(ms, codec, ep);
+            var codec = ImageCodecInfo.GetImageEncoders().First(x => x.MimeType == "image/jpeg"); using var ep = new EncoderParameters(1); ep.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 55L); scaled.Save(ms, codec, ep);
             await RemoteProtocol.SendBinary(socket, ms.ToArray(), ct); await Task.Delay(120, ct);
         }
     }
